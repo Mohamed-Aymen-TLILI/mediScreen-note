@@ -46,4 +46,14 @@ public class NoteService {
         }
     }
 
+    public void deleteNoteById(final String noteId) {
+        logger.debug("Call to noteService.deleteNoteById");
+        noteRepository.findById(noteId)
+                .orElseThrow(() ->
+                        new NoteNotFoundException("L'Id non trouvé"));
+
+        noteRepository.deleteById(noteId);
+        logger.debug("Call to noteService.deleteNoteById finish");
+    }
+
 }

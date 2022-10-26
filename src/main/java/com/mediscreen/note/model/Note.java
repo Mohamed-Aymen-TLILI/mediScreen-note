@@ -5,18 +5,27 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@Document(collection="Note")
+
+
+
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
+@Document(collection="Note")
 public class Note {
     @Id
     private String id;
@@ -25,17 +34,15 @@ public class Note {
     private Integer patientId;
 
     @NotBlank(message =  "Note is mandatory and can not be empty")
+    @Field(value = "note")
     private String note;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
+    @Field(value = "createdDate")
     private LocalDate createdDate;
 
-    public Note()
-    {
-
-    }
     public Note(String noteId, Integer patientId, String note)
     {
         this.id = noteId;
